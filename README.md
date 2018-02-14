@@ -1,4 +1,4 @@
-# Template that uses the Spring framework to allow for a java codebase and React.js to allow for a flexible web front end UI
+# Template that uses the Spring framework to allow for a java codebase and React.js to allow for a flexible web front end
 
 This project is intended to be imported and modified. Combines the Spring Boot framework to provide RESTful access to a Java codebase on the back end, Hibernate/Java Persistence API database for persistence, and a javascript web front end with React.js. 
 
