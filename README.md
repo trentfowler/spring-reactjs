@@ -10,4 +10,3 @@ This project uses the resources below but could be adapted to suit other needs. 
 * [Hibernate JPA](http://hibernate.org/orm/)
 * [Maven](https://maven.apache.org/) - Pre-configured Maven repo. 
 * [Lombok](https://projectlombok.org/) - Provides getters/setters and other template/generated methods to reduce boilerplate. 
-* [Java 8.x or 9.x](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
