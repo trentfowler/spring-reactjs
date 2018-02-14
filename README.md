@@ -2,10 +2,6 @@
 
 A template project that combines the Spring Boot framework to provide RESTful access to a Java codebase on the back end, Hibernate/Java Persistence API database for persistence, and a javascript web front end with React.js. 
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites/Dependencies
 
 This project uses the resources below but could be adapted to suit other needs. For example, Java EE instead of Spring, Angular.js instead of React.js, Gradle instead of Maven, etc. 
