@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>template</name>
-	<description>Template for java back end with Spring framework and web front end with react.js</description>
+	<description>Java project using Spring/React.js</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -25,6 +25,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- Adds devtools to automatically restart on file change. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -57,7 +63,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- JAVA 9 WORKAROUND -->
+		<!-- START WORKAROUND -->
 		<dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -67,10 +73,10 @@
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>2.7.0</version>
-        </dependency>
+		</dependency>
 		<!-- END WORKAROUND https://stackoverflow.com/q/43574426/624041
-        "How to resolve java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException in Java 9"
-        -->
+        "How to resolve java.lang.NoClassDefFoundError:
+        javax/xml/bind/JAXBException in Java 9" -->
 	</dependencies>
 
 	<build>
@@ -78,6 +84,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--
+                <configuration>
+					<addResources>true</addResources>
+				</configuration>
+				-->
 			</plugin>
 		</plugins>
 	</build>

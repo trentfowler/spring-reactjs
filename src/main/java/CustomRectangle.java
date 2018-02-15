@@ -3,13 +3,13 @@ package com.trentfowler.springreactjs.template;
 import lombok.*;
 import javax.persistence.*;
 
-/**
+/*
  * This class is intended to be removed. For this template, it is
- * used to create object instances to store in relational databases and
+ * used to create objects to store in relational databases and to
  * represent visually with React.js.
  */
 
-/*
+/**
  * Defines a rectangle by the index of the bottom left corner (x1, y1) and
  * the index of the top right corner (x2, y2). Uses a different representation
  * than java.awt.rectangle class which uses width, height, and (x, y) coordinates
@@ -52,7 +52,7 @@ public class CustomRectangle {
     /**
      * String representation of rectangle object.
      *
-     * @return
+     * @return String representation of a rectangle.
      */
     @Override public String toString() {
         return String.format(

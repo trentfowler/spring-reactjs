@@ -20,6 +20,9 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        this.repository.save(new CustomRectangle(10, 20, 22, 38));
+        this.repository.save(new CustomRectangle(10, 10, 20, 20));
+        this.repository.save(new CustomRectangle(11, 20, 22, 38));
+        this.repository.save(new CustomRectangle(10, 12, 22, 32));
+        this.repository.save(new CustomRectangle(5, 5, 8, 8));
     }
 }
