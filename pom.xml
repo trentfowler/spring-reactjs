@@ -25,12 +25,15 @@
 	</properties>
 
 	<dependencies>
-		<!-- Adds devtools to automatically restart on file change. -->
+		<!-- START devtools: Adds automatic restart on file change, but
+		it seems like there may be some issues with Java 9. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
 		</dependency>
+		<!-- END devtools -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -77,6 +80,7 @@
 		<!-- END WORKAROUND https://stackoverflow.com/q/43574426/624041
         "How to resolve java.lang.NoClassDefFoundError:
         javax/xml/bind/JAXBException in Java 9" -->
+
 	</dependencies>
 
 	<build>

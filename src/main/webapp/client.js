@@ -1,4 +1,10 @@
-// configures rest.js to support HAL, URI Templates, etc.
+/**
+ * Configures rest.js to include support for HAL, URI Templates, and other
+ * things. Also sets the default Accept request header to
+ * application/hal+json.
+ *
+ * Custom code source: https://spring.io/guides/tutorials/react-and-spring-data-rest/
+ */
 
 'use strict';
 

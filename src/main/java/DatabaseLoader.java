@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * This class should be added to in order to implement the Spring framework's
  * "CommandLineRunner" interface to override its run() method and indicate
- * when a bean should be run. The example below should be replaced.
+ * when a bean should be run. The example data below should be replaced.
  */
 @Component
 public class DatabaseLoader implements CommandLineRunner {
