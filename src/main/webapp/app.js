@@ -68,43 +68,22 @@ class CustomRectangle extends React.Component {
         if (this.state.display == false) return null;
         else if (this.state.edit == true) {
            return (
+               var coords = [
+                   this.props.customRectangle.x1,
+                   this.props.customRectangle.y1,
+                   this.props.customRectangle.x2,
+                   this.props.customRectangle.y2
+               ];
                <tr>
+               for (coord: coords) {
                    <td>
                        <div class="ui input">
                            <input type="text" placeholder={
-                               this.props.customRectangle.x1}>
-                           </input>
+                               <script>coord</script>
+                           }></input>
                        </div>
                    </td>
-                   <td>
-                       <div class="ui input">
-                           <input type="text" placeholder={
-                               this.props.customRectangle.y1}>
-                           </input>
-                       </div>
-                   </td>
-                   <td>
-                       <div class="ui input">
-                           <input type="text" placeholder={
-                               this.props.customRectangle.x2}>
-                           </input>
-                       </div>
-                   </td>
-                   <td>
-                       <div class="ui input">
-                           <input type="text" placeholder={
-                               this.props.customRectangle.y2}>
-                           </input>
-                       </div>
-                   </td>
-                   <td>
-                       <div class="ui buttons">
-                           <button class="ui button">Cancel</button>
-                           <div class="or"></div>
-                           <button class="ui positive button"
-                                   onClick={this.handleSave}>Save</button>
-                       </div>
-                   </td>
+               }
                </tr>
            );
         }
