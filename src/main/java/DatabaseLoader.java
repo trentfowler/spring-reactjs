@@ -3,6 +3,7 @@ package com.trentfowler.springreactjs.template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import java.util.Random;
 
 /**
  * This class should be added to in order to implement the Spring framework's
@@ -20,9 +21,15 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        this.repository.save(new CustomRectangle(10, 10, 20, 20));
-        this.repository.save(new CustomRectangle(11, 20, 22, 38));
-        this.repository.save(new CustomRectangle(10, 12, 22, 32));
-        this.repository.save(new CustomRectangle(5, 5, 8, 8));
+        Random rand = new Random();
+        int i = 0;
+        while (i < 100) {
+            int x1 = rand.nextInt(25);
+            int x2 = x1 + rand.nextInt(25 - x1);
+            int y1 = rand.nextInt(25);
+            int y2 = y1 + rand.nextInt(25 - y1);
+            this.repository.save(new CustomRectangle(x1, x2, y1, y2));
+            i++;
+        }
     }
 }
