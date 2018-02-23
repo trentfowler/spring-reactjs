@@ -48,7 +48,7 @@ I used Node.js to install the dependencies with ```npm``` but all dependencies a
 ## Installing
 
 1. Download the project: ```git clone https://github.com/trentfowler/spring-reactjs.git```
-2. Import into your IDE and select the pom.xml. If you prefer you can also generate your own Mavin file from [https://start.spring.io/](https://start.spring.io/) but going that route you should add these dependencies to your pom.xml file if you are using Java 9. 
+2. Import into your IDE and select the pom.xml. If you prefer you can also generate your own Mavin file from [https://start.spring.io/](https://start.spring.io/) but going that route you should add these dependencies to your pom.xml file if you are using Java 9. You can read more on that [here](https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j). 
 
 ```
 <dependency>
@@ -62,10 +62,8 @@ I used Node.js to install the dependencies with ```npm``` but all dependencies a
             <version>2.7.0</version>
 		</dependency>
 ```
-You can read more on that [here](https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j). 
 
-And go ahead and add the Spring dev tools dependencies as well so you don't have to restart after each change: 
-
+Also go ahead and add the Spring dev tools dependencies as well so you don't have to restart after each change.
 ```
 <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -77,7 +75,7 @@ And go ahead and add the Spring dev tools dependencies as well so you don't have
 ```javascript
 spring.data.rest.base-path=/api
 ```
-That's because your webpage will be accessible from the root ```/``` and the REST database should run beind the scense like from ```/api```. So, for example, you might access your front end by going to ```http://localhost:8080/``` and your REST back end will run behind the scenes at ```http://localhost:8080/api``` and will have a HAL or json-esque tree like scructure that the front end can pull from. 
+That's because your webpage will be accessible from the root ```/``` and the REST database should run beind the scenes like from ```/api```. So, for example, you might access your front end by going to ```http://localhost:8080/``` and your REST back end will run behind the scenes at ```http://localhost:8080/api``` and will have a HAL or json-esque tree like scructure that the front end can pull from. 
 
 Example database: 
 ![https://i.imgur.com/3KsWXz0.png](https://i.imgur.com/3KsWXz0.png)
