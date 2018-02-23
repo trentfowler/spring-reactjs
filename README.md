@@ -1,8 +1,12 @@
 # Spring Framework, React.js Demo/Template
 
-Re-creates a RESTful Framework/API to allow for the creation of a dynamic web application with a Java back end. This project was made for personal use but the code is available to anybody. 
+A RESTful Framework/API implementation to allow for the creation of a web UI for a Java backend. 
 
-The project is basically a demo showing how the parts work together by messing around with rectangles, but all that it really is is a barbones template that is meant to be imported and modified so that I may quickly deploy small single purpose web applications. 
+This project allows communication between the the Java objects running in memory and the web by allowing CRUD operations to be performed on them, e.g. GET/PUT/POST/DELETE. 
+
+Created for personal use but the source code is available to anybody. 
+
+The code itself demos how the parts work together by messing around with properties of rectangles, but the intent is as a working barebones template that can be imported and modified to quickly deploy small single purpose web applications. 
 
 Highlights of this project include: 
 
@@ -17,7 +21,7 @@ Highlights of this project include:
 
 ## Requirements
 
-I used Node.js to install the dependencies with ```npm``` but all dependencies and versions are list in the ```package.json``` file below. I use jquery for the ```ajax``` command which I have the easiest time with when making CRUD requests. 
+I used Node.js to install the dependencies with ```npm``` but all of the dependencies and versions are listed in the ```package.json``` file below. 
 
 ```javascript
   "devDependencies": {
@@ -45,6 +49,8 @@ I used Node.js to install the dependencies with ```npm``` but all dependencies a
   }
 ```
 
+:warning::warning::warning: jQuery for ```ajax``` call to the REST service which is still a work in progress as of Feb. 24 2018 and not yet functional for editing existing entries
+
 ## Installing
 
 1. Download the project: ```git clone https://github.com/trentfowler/spring-reactjs.git```
@@ -52,18 +58,19 @@ I used Node.js to install the dependencies with ```npm``` but all dependencies a
 
 ```
 <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>2.7.0</version>
-		</dependency>
+	<groupId>javax.xml.bind</groupId>
+	<artifactId>jaxb-api</artifactId>
+	<version>2.3.0</version>
+</dependency>
+<dependency>
+	<groupId>org.eclipse.persistence</groupId>
+	<artifactId>eclipselink</artifactId>
+	<version>2.7.0</version>
+</dependency>
 ```
 
-Also go ahead and add the Spring dev tools dependencies as well so you don't have to restart after each change.
+Then add the ```spring-boot-devtools``` dependency as well so you don't have to restart Spring after every code change.
+
 ```
 <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -71,11 +78,28 @@ Also go ahead and add the Spring dev tools dependencies as well so you don't hav
       <optional>true</optional>
 </dependency>
 ```
-3. If you are working with your own product file don't forget to include the ```application.properties``` file with the following contents: 
-```javascript
+
+3. If you are working with your own project file be sure to include the ```application.properties``` file with the following contents: 
+
+```
 spring.data.rest.base-path=/api
 ```
-That's because your webpage will be accessible from the root ```/``` and the REST database should run beind the scenes like from ```/api```. So, for example, you might access your front end by going to ```http://localhost:8080/``` and your REST back end will run behind the scenes at ```http://localhost:8080/api``` and will have a HAL or json-esque tree like scructure that the front end can pull from. 
+
+That is needed since the webpage should be accessible from the root, for example by going to ```http://localhost:8080/```, so the REST database should just run beind the scenes from like ```http://localhost:8080/api```. Going to ```http://localhost:8080/api``` will show you the json-esque tree like database. 
+
+```
+{
+  "_links" : {
+    "customRectangles" : {
+      "href" : "http://192.168.1.137:8080/api/customRectangles{?page,size,sort}",
+      "templated" : true
+    },
+    "profile" : {
+      "href" : "http://192.168.1.137:8080/api/profile"
+    }
+  }
+}
+```
 
 Example database: 
 ![https://i.imgur.com/3KsWXz0.png](https://i.imgur.com/3KsWXz0.png)
