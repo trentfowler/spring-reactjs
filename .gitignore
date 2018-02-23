@@ -24,3 +24,4 @@ nbdist/
 .nb-gradle/
 .gitignore
 node_modules
+.mvn/
