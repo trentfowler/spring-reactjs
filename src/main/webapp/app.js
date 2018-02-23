@@ -13,6 +13,7 @@ const client = require('./client');
 const follow = require('./follow');
 const semantic = require('semantic-ui-react');
 const toastr = require('toastr');
+
 const root = '/api';
 
 /**
@@ -20,7 +21,30 @@ const root = '/api';
  */
 import 'semantic-ui-css/semantic.min.css';
 import {Icon, Label, Menu, Table, Segment, Input,
-    Button} from 'semantic-ui-react'
+    Button, Popup, Grid, Header, Modal} from 'semantic-ui-react'
+
+/**
+ * Custom UI elements, from Semantic UI React.
+ *
+ * @returns {*}
+ */
+const CustomAddRectangleModal= () => (
+    <Modal trigger={<div><Button icon='add'/></div>}>
+        <Modal.Header>Add Rectangle</Modal.Header>
+        <Modal.Content>
+            <Modal.Description>
+                <Header>Enter Values</Header>
+                <Input focus placeholder='x1'/>
+                <Input focus placeholder='y1'/>
+                <Input focus placeholder='x2'/>
+                <Input focus placeholder='y2'/>
+            </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+            <Button primary>Add</Button>
+        </Modal.Actions>
+    </Modal>
+)
 
 /**
  * One row represents a single rectangle as (x1,y1), (x2,y2) or the
@@ -161,6 +185,11 @@ class App extends React.Component {
  * records into an array of <Element /> React components.
  */
 class RectangleList extends React.Component {
+    constructor() {
+       super();
+       this.handleAdd = this.handleAdd.bind(this);
+    }
+
     render() {
         var customRectangles = this.props.customRectangles.map(customRectangle =>
             <Row key={customRectangle._links.self.href}
@@ -186,9 +215,7 @@ class RectangleList extends React.Component {
                         <Table.Footer fullWidth>
                            <Table.Row>
                                <Table.HeaderCell>
-                                   <Button primary onClick={this.handleAdd}>
-                                       Add
-                                   </Button>
+                                   <CustomAddRectangleModal></CustomAddRectangleModal>
                                </Table.HeaderCell>
                                <Table.HeaderCell>
                                    <Button onClick={this.handleEditAll}>
@@ -220,8 +247,18 @@ class RectangleList extends React.Component {
     /**
      * Handlers for when user selects add, edit all, etc.
      */
+    /*
+    const AddPopup = () => (
+        <Popup
+            trigger={<Button icon='add'/>}
+            flowing
+            hoverable
+            >
+    )
+    */
 
     handleAdd() {
+        var self = this;
         //TODO: implement function
     }
 
