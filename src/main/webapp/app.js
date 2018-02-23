@@ -8,9 +8,11 @@ const client = require('./client');
 const follow = require('./follow');
 const semantic = require('semantic-ui-react');
 const toastr = require('toastr');
+
 const root = '/api';
 
 import 'semantic-ui-css/semantic.min.css';
+import { Icon, Label, Menu, Table, Segment, Input, Button } from 'semantic-ui-react'
 
 /**
  * Rectangle represented as (x1,y1), (x2,y2).
@@ -66,46 +68,46 @@ class CustomRectangle extends React.Component {
 
     render() {
         if (this.state.display == false) return null;
-        else if (this.state.edit == true) {
-           return (
-               var coords = [
-                   this.props.customRectangle.x1,
-                   this.props.customRectangle.y1,
-                   this.props.customRectangle.x2,
-                   this.props.customRectangle.y2
-               ];
-               <tr>
-               for (coord: coords) {
-                   <td>
-                       <div class="ui input">
-                           <input type="text" placeholder={
-                               <script>coord</script>
-                           }></input>
-                       </div>
-                   </td>
-               }
-               </tr>
+        if (this.state.edit == true) {
+            return (
+               <Table.Row>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={this.props.customRectangle.x1}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={this.props.customRectangle.y1}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={this.props.customRectangle.x2}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={this.props.customRectangle.y2}/>
+                   </Table.Cell>
+                    <Table.Cell>
+                        <Button.Group>
+                            <Button>Cancel</Button>
+                            <Button.Or />
+                            <Button positive>Save</Button>
+                        </Button.Group>
+                    </Table.Cell>
+               </Table.Row>
            );
         }
-        else return (
-            <tr>
-                <td>{this.props.customRectangle.x1}</td>
-                <td>{this.props.customRectangle.y1}</td>
-                <td>{this.props.customRectangle.x2}</td>
-                <td>{this.props.customRectangle.y2}</td>
-                <td>
-                    <div>
-                        <button class="ui button"
-                                onClick={this.handleUpdate}>
-                            Edit
-                        </button>
-                        <button class="ui secondary button"
-                                onClick={this.handleDelete}>
-                            Remove
-                        </button>
-                    </div>
-                </td>
-            </tr>
+        return (
+            <Table.Row>
+                <Table.Cell>{this.props.customRectangle.x1}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.y1}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.x2}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.y2}</Table.Cell>
+                <Table.Cell>
+                    <Button floated={'left'} onClick={this.handleUpdate}>
+                        Edit
+                    </Button>
+                    <Button secondary floated={'left'} onClick={this.handleDelete}>
+                        Remove
+                    </Button>
+                </Table.Cell>
+            </Table.Row>
         );
     }
 }
@@ -150,27 +152,47 @@ class RectangleList extends React.Component {
                     customRectangle={customRectangle}/>
         );
         return (
-            <div className="container">
-                <div class="ui top attached segment">
-                    <div class="ui label"></div>
-                    <table class="ui selectable compact striped celled table">
-                        <thead>
-                            <tr>
-                                <th>x1</th>
-                                <th>y1</th>
-                                <th>x2</th>
-                                <th>y2</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="container">
+                <Segment padded>
+                    <Label attached='top left'>Rectangle Data</Label>
+                    <Table celled selectable>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>x1</Table.HeaderCell>
+                                <Table.HeaderCell>y1</Table.HeaderCell>
+                                <Table.HeaderCell>x2</Table.HeaderCell>
+                                <Table.HeaderCell>y2</Table.HeaderCell>
+                                <Table.HeaderCell>Action</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
                             {customRectangles}
-                        </tbody>
-                    </table>
-                    <div class="ui top attached label">
-                        Rectangle Data
-                    </div>
-                </div>
+                        </Table.Body>
+                        <Table.Footer fullWidth>
+                           <Table.Row>
+                               <Table.HeaderCell>
+                                   <Button primary>
+                                       Add
+                                   </Button>
+                               </Table.HeaderCell>
+                                <Table.HeaderCell colSpan='5'>
+                                    <Menu floated='right' pagination>
+                                        <Menu.Item as='a' icon>
+                                            <Icon name='left chevron'/>
+                                        </Menu.Item>
+                                        <Menu.Item as='a'>1</Menu.Item>
+                                        <Menu.Item as='a'>2</Menu.Item>
+                                        <Menu.Item as='a'>3</Menu.Item>
+                                        <Menu.Item as='a'>4</Menu.Item>
+                                        <Menu.Item as='a' icon>
+                                            <Icon name='right chevron'/>
+                                        </Menu.Item>
+                                    </Menu>
+                                </Table.HeaderCell>
+                           </Table.Row>
+                        </Table.Footer>
+                    </Table>
+                </Segment>
             </div>
         );
     }
