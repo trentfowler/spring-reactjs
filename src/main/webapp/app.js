@@ -1,6 +1,11 @@
 
 'use strict';
 
+/**
+ * Variables
+ *
+ * @type {React}
+ */
 const React = require('react');
 const ReactDOM = require('react-dom');
 const promise = require('./promise.js');
@@ -8,16 +13,22 @@ const client = require('./client');
 const follow = require('./follow');
 const semantic = require('semantic-ui-react');
 const toastr = require('toastr');
-
 const root = '/api';
 
+/**
+ * Import statements, This project uses Semantic UI React stylesheet.
+ */
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Label, Menu, Table, Segment, Input, Button } from 'semantic-ui-react'
+import {Icon, Label, Menu, Table, Segment, Input,
+    Button} from 'semantic-ui-react'
 
 /**
- * Rectangle represented as (x1,y1), (x2,y2).
+ * One row represents a single rectangle as (x1,y1), (x2,y2) or the
+ * coordinates of the bottom left corner and top right corner. From that
+ * everything else can be derived, which would be a good test of the java
+ * backend.
  */
-class CustomRectangle extends React.Component {
+class Row extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +38,63 @@ class CustomRectangle extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
+
+    render() {
+        if (this.state.display == false) return null;
+        if (this.state.edit == true) {
+            return (
+               <Table.Row>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={
+                           this.props.customRectangle.x1}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={
+                           this.props.customRectangle.y1}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={
+                           this.props.customRectangle.x2}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Input fluid type='text' placeholder={
+                           this.props.customRectangle.y2}/>
+                   </Table.Cell>
+                   <Table.Cell>
+                       <Button.Group>
+                           <Button onClick={this.handleCancel}>Cancel</Button>
+                           <Button.Or />
+                           <Button positive onClick={this.handleSave}>
+                               Save
+                           </Button>
+                       </Button.Group>
+                   </Table.Cell>
+               </Table.Row>
+           );
+        }
+        return (
+            <Table.Row>
+                <Table.Cell>{this.props.customRectangle.x1}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.y1}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.x2}</Table.Cell>
+                <Table.Cell>{this.props.customRectangle.y2}</Table.Cell>
+                <Table.Cell>
+                    <Button onClick={this.handleUpdate}>
+                        Edit
+                    </Button>
+                    <Button secondary onClick={this.handleDelete}>
+                        Remove
+                    </Button>
+                </Table.Cell>
+            </Table.Row>
+        );
+    }
+
+    /**
+     * Handlers for when user selects delete, edit, cancel, save, etc.
+     */
 
     handleDelete() {
         var self = this;
@@ -43,72 +110,20 @@ class CustomRectangle extends React.Component {
         });
     }
 
+    handleCancel() {
+        var self = this;
+        this.setState({edit: false});
+    }
+
     handleUpdate() {
         var self = this;
-        self.setState({edit: true});
+        this.setState({edit: true});
     }
 
     handleSave() {
+        //TODO: implement method
         var self = this;
-        var rectangle = rectangle => {
-            <CustomRectangle key={self.props.rectangle._links.self.href}
-                             rectangle={self.props.rectangle}/>
-        }
-        $.ajax({
-            url: self.props.rectangle._links.self.href,
-            type: 'PUT',
-            success: function (data) {
-
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                toastr.error(xhr.responseJSON.message);
-            }
-        });
-    }
-
-    render() {
-        if (this.state.display == false) return null;
-        if (this.state.edit == true) {
-            return (
-               <Table.Row>
-                   <Table.Cell>
-                       <Input fluid type='text' placeholder={this.props.customRectangle.x1}/>
-                   </Table.Cell>
-                   <Table.Cell>
-                       <Input fluid type='text' placeholder={this.props.customRectangle.y1}/>
-                   </Table.Cell>
-                   <Table.Cell>
-                       <Input fluid type='text' placeholder={this.props.customRectangle.x2}/>
-                   </Table.Cell>
-                   <Table.Cell>
-                       <Input fluid type='text' placeholder={this.props.customRectangle.y2}/>
-                   </Table.Cell>
-                    <Table.Cell>
-                        <Button.Group>
-                            <Button>Cancel</Button>
-                            <Button.Or />
-                            <Button positive>Save</Button>
-                        </Button.Group>
-                    </Table.Cell>
-               </Table.Row>
-           );
-        }
-        return (
-            <Table.Row>
-                <Table.Cell>{this.props.customRectangle.x1}</Table.Cell>
-                <Table.Cell>{this.props.customRectangle.y1}</Table.Cell>
-                <Table.Cell>{this.props.customRectangle.x2}</Table.Cell>
-                <Table.Cell>{this.props.customRectangle.y2}</Table.Cell>
-                <Table.Cell>
-                    <Button floated={'left'} onClick={this.handleUpdate}>
-                        Edit
-                    </Button>
-                    <Button secondary floated={'left'} onClick={this.handleDelete}>
-                        Remove
-                    </Button>
-                </Table.Cell>
-            </Table.Row>
-        );
+        this.setState({edit: false});
     }
 }
 
@@ -148,8 +163,8 @@ class App extends React.Component {
 class RectangleList extends React.Component {
     render() {
         var customRectangles = this.props.customRectangles.map(customRectangle =>
-            <CustomRectangle key={customRectangle._links.self.href}
-                    customRectangle={customRectangle}/>
+            <Row key={customRectangle._links.self.href}
+                             customRectangle={customRectangle}/>
         );
         return (
             <div class="container">
@@ -171,24 +186,29 @@ class RectangleList extends React.Component {
                         <Table.Footer fullWidth>
                            <Table.Row>
                                <Table.HeaderCell>
-                                   <Button primary>
+                                   <Button primary onClick={this.handleAdd}>
                                        Add
                                    </Button>
                                </Table.HeaderCell>
-                                <Table.HeaderCell colSpan='5'>
-                                    <Menu floated='right' pagination>
-                                        <Menu.Item as='a' icon>
-                                            <Icon name='left chevron'/>
-                                        </Menu.Item>
-                                        <Menu.Item as='a'>1</Menu.Item>
-                                        <Menu.Item as='a'>2</Menu.Item>
-                                        <Menu.Item as='a'>3</Menu.Item>
-                                        <Menu.Item as='a'>4</Menu.Item>
-                                        <Menu.Item as='a' icon>
-                                            <Icon name='right chevron'/>
-                                        </Menu.Item>
-                                    </Menu>
-                                </Table.HeaderCell>
+                               <Table.HeaderCell>
+                                   <Button onClick={this.handleEditAll}>
+                                       Edit All
+                                   </Button>
+                               </Table.HeaderCell>
+                               <Table.HeaderCell colSpan='5'>
+                                   <Menu floated='right' pagination>
+                                       <Menu.Item as='a' icon>
+                                           <Icon name='left chevron'/>
+                                       </Menu.Item>
+                                       <Menu.Item as='a'>1</Menu.Item>
+                                       <Menu.Item as='a'>2</Menu.Item>
+                                       <Menu.Item as='a'>3</Menu.Item>
+                                       <Menu.Item as='a'>4</Menu.Item>
+                                       <Menu.Item as='a' icon>
+                                           <Icon name='right chevron'/>
+                                       </Menu.Item>
+                                   </Menu>
+                               </Table.HeaderCell>
                            </Table.Row>
                         </Table.Footer>
                     </Table>
@@ -196,10 +216,22 @@ class RectangleList extends React.Component {
             </div>
         );
     }
+
+    /**
+     * Handlers for when user selects add, edit all, etc.
+     */
+
+    handleAdd() {
+        //TODO: implement function
+    }
+
+    handleEditAll() {
+        //TODO: implement function
+    }
 }
 
 /*
- * Replaces the ReactDOM.render with the newly created App class.
+ * Replaces the ReactDOM.render with the App class.
  */
 ReactDOM.render(
     <App />,
