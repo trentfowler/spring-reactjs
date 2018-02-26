@@ -80,7 +80,6 @@
 		<!-- END WORKAROUND https://stackoverflow.com/q/43574426/624041
         "How to resolve java.lang.NoClassDefFoundError:
         javax/xml/bind/JAXBException in Java 9" -->
-
 	</dependencies>
 
 	<build>
