@@ -13,7 +13,7 @@ const client = require('./client');
 const follow = require('./follow');
 const semantic = require('semantic-ui-react');
 const toastr = require('toastr');
-
+const fetcher = require('whatwg-fetch');
 const root = '/api';
 
 /**
@@ -22,29 +22,6 @@ const root = '/api';
 import 'semantic-ui-css/semantic.min.css';
 import {Icon, Label, Menu, Table, Segment, Input,
     Button, Popup, Grid, Header, Modal} from 'semantic-ui-react'
-
-/**
- * Custom UI elements, from Semantic UI React.
- *
- * @returns {*}
- */
-const CustomAddRectangleModal= () => (
-    <Modal trigger={<div><Button icon='add'/></div>}>
-        <Modal.Header>Add Rectangle</Modal.Header>
-        <Modal.Content>
-            <Modal.Description>
-                <Header>Enter Values</Header>
-                <Input focus placeholder='x1'/>
-                <Input focus placeholder='y1'/>
-                <Input focus placeholder='x2'/>
-                <Input focus placeholder='y2'/>
-            </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
-            <Button primary>Add</Button>
-        </Modal.Actions>
-    </Modal>
-)
 
 /**
  * One row represents a single rectangle as (x1,y1), (x2,y2) or the
@@ -66,8 +43,8 @@ class Row extends React.Component {
     }
 
     render() {
-        if (this.state.display == false) return null;
-        if (this.state.edit == true) {
+        if (this.state.display === false) return null;
+        if (this.state.edit === true) {
             return (
                <Table.Row>
                    <Table.Cell>
@@ -116,10 +93,6 @@ class Row extends React.Component {
         );
     }
 
-    /**
-     * Handlers for when user selects delete, edit, cancel, save, etc.
-     */
-
     handleDelete() {
         var self = this;
         $.ajax({
@@ -152,48 +125,20 @@ class Row extends React.Component {
 }
 
 /**
- * Gets the data for the React.js view from the REST endpoint.
- */
-class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {customRectangles: []};
-    }
-
-    loadFromServer(pageSize) {
-        var self = this;
-        $.ajax({
-            url: "http://localhost:8080/api/customRectangles"
-        }).then(function (data) {
-           self.setState({customRectangles: data._embedded.customRectangles});
-        });
-    }
-
-    componentDidMount() {
-        this.loadFromServer(this.state.pageSize);
-    }
-
-    render() {
-        return (
-            <RectangleList customRectangles={this.state.customRectangles}/>
-        )
-    }
-}
-
-/**
  * 'this.props.customRectangles' is transformed from an array of customRectangle
  * records into an array of <Element /> React components.
  */
 class RectangleList extends React.Component {
-    constructor() {
-       super();
+    constructor(props) {
+       super(props);
        this.handleAdd = this.handleAdd.bind(this);
     }
 
     render() {
-        var customRectangles = this.props.customRectangles.map(customRectangle =>
-            <Row key={customRectangle._links.self.href}
-                             customRectangle={customRectangle}/>
+        var customRectangles = this.props.customRectangles.map(
+            customRectangle =>
+                <Row key={customRectangle._links.self.href}
+                     customRectangle={customRectangle}/>
         );
         return (
             <div class="container">
@@ -215,7 +160,25 @@ class RectangleList extends React.Component {
                         <Table.Footer fullWidth>
                            <Table.Row>
                                <Table.HeaderCell>
-                                   <CustomAddRectangleModal></CustomAddRectangleModal>
+                                   <Modal trigger={<Button icon='add'
+                                                        onClick={this.handleAdd}/>}>
+                                       <Modal.Header>Add Rectangle</Modal.Header>
+                                       <Modal.Content>
+                                           <Modal.Description>
+                                               <Header>Enter Values</Header>
+                                               <Input focus placeholder='x1'/>
+                                               <Input focus placeholder='y1'/>
+                                               <Input focus placeholder='x2'/>
+                                               <Input focus placeholder='y2'/>
+                                           </Modal.Description>
+                                       </Modal.Content>
+                                       <Modal.Actions>
+                                           <Button primary
+                                                   onClick={this.handleAdd}>
+                                               Add
+                                           </Button>
+                                       </Modal.Actions>
+                                   </Modal>
                                </Table.HeaderCell>
                                <Table.HeaderCell>
                                    <Button onClick={this.handleEditAll}>
@@ -244,26 +207,65 @@ class RectangleList extends React.Component {
         );
     }
 
-    /**
-     * Handlers for when user selects add, edit all, etc.
-     */
-    /*
-    const AddPopup = () => (
-        <Popup
-            trigger={<Button icon='add'/>}
-            flowing
-            hoverable
-            >
-    )
-    */
-
     handleAdd() {
         var self = this;
-        //TODO: implement function
+        let data = {
+            x1: 1,
+            y1: 1,
+            x2: 1,
+            y2: 1
+        }
+        $.ajax({
+            url: "http://localhost:8080/api/customRectangles/add",
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            cache: false,
+            data: JSON.stringify(data),
+            success: function(response){
+                alert('successful');
+                //TODO: add here
+            },
+            error: function(){
+                alert('Error in request..');
+                console.log("data =" + JSON.stringify(data));
+            }
+        });
     }
 
     handleEditAll() {
         //TODO: implement function
+    }
+}
+
+/**
+ * Gets the data from the REST endpoint.
+ */
+class App extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {customRectangles: []};
+    }
+
+    loadFromServer(pageSize) {
+        var self = this;
+        $.ajax({
+            url: "http://localhost:8080/api/customRectangles"
+        }).then(function (data) {
+            self.setState({customRectangles: data._embedded.customRectangles});
+        });
+    }
+
+    componentDidMount() {
+        this.loadFromServer(this.state.pageSize);
+    }
+
+    render() {
+        return (
+            <RectangleList customRectangles={this.state.customRectangles}/>
+        )
     }
 }
 
