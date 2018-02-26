@@ -13,7 +13,6 @@ const client = require('./client');
 const follow = require('./follow');
 const semantic = require('semantic-ui-react');
 const toastr = require('toastr');
-const fetcher = require('whatwg-fetch');
 const root = '/api';
 
 /**
