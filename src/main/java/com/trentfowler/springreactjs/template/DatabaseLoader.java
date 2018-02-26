@@ -23,7 +23,7 @@ public class DatabaseLoader implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         Random rand = new Random();
         int i = 0;
-        while (i < 100) {
+        while (i < 5) {
             int x1 = rand.nextInt(25);
             int x2 = x1 + rand.nextInt(25 - x1);
             int y1 = rand.nextInt(25);
